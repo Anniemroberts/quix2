@@ -1,0 +1,47 @@
+<button type="button modal-button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  New Idea
+</button>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">New Idea</h4>
+      </div>
+      <div class="new-idea">
+        <p><%= @idea.errors.full_messages.join(', ') %></p>
+        <%= form_for @idea do |f| %>
+          <div>
+            <%= f.label :title %>
+            <%= f.text_field :title %>
+          </div>
+          <div>
+            <%= f.label :description %>
+            <%= f.text_area :description %>
+          </div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-default"><%= f.submit %></button>
+          <%# f.submit %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="idea-list">
+  <hr>
+<% @ideas.each do |i| %>
+<div class="idea">
+  <h4><%= link_to i.title, idea_path(i) %></h4>
+  <p><%= i.description %></p>
+  <% if i.user_id %>
+    <h5>By: <%= User.find(i.user_id).name %></h5>
+  <% else %>
+    <h5>By: Guest User</h5>
+  <% end %>
+</div>
+<hr>
+<% end %>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Idea Factory</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <style>
+    .logo {
+      float: left;
+      padding: 15px;
+    }
+    .leftnav {
+      float: right;
+      padding: 40px 15px 15px 15px;
+    }
+    .btn-lg, .btn-group-lg > .btn {
+      float: right;
+      clear: both;
+    }
+    </style>
+  </head>
+
+
+  <body>
+    <div>
+    <a class="logo" href="/"> <h3>Idea Factory</h3></a>
+
+    <div class="leftnav">
+  <% if user_signed_in? %>
+    <span>Hello <%= current_user.name %> </span>
+    <%= link_to "Sign out", session_path(:user_id), :method => :delete %>
+  <% else %>
+    <%= link_to 'Sign Up', new_user_path %>
+    <%= link_to 'Sign In', new_session_path %>
+  <% end %>
+</div>
+</div>
+  <%= notice || alert %>
+    <%= yield %>
+  </body>
+</html>

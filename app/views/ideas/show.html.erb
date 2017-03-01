@@ -1,0 +1,42 @@
+<h1><%= @idea.title %></h1>
+<p><%= @idea.description %></p>
+<% if @idea.user_id %>
+  <h2><%= User.find(@idea.user_id).name %></h2>
+<% else %>
+  <h2>Guest User</h2>
+<% end %>
+
+<% if can?(:manage, @idea) %>
+<%= link_to 'Edit', edit_idea_path(@idea) %>
+<%= link_to 'Delete', idea_path(@idea),
+                      method: :delete,
+                      data: { confirm: 'Are you sure?' } %>
+<% end %>
+
+<hr>
+<h2>Reviews</h2>
+<h3>Review This Idea</h3>
+
+
+
+<%= @review.errors.full_messages.join(', ') %>
+<%= form_for [@idea, @review] do |f| %>
+  <%= f.text_area :body %>
+  <%= f.submit %>
+<% end %>
+
+<hr>
+<% @idea.reviews.each do |review| %>
+  <%= review.body %>
+  <% if can?(:manage, review) %>
+    <%= link_to 'delete', review_path(review) ,
+                          method: :delete,
+                          data: { confirm: 'Are you sure? '} %>
+    <% end %>
+  <% if review.user_id %>
+    <h5><%= User.find(review.user_id).name %></h5>
+  <% else %>
+    <h5>Guest User</h5>
+  <% end %>
+  <hr>
+<% end %>
